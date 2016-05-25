@@ -21,6 +21,7 @@ def close(obj):
 
 def json_data_to_insert_queries(json_data, table_name):
     queries = []
+    #TODO: Cram style, checking for primary keys that already exist
     for row in json_data:
         columns = ', '.join(list(row.keys()))
         values = ', '.join(["'" + value + "'" if value else 'NULL' for value in list(row.values())])
@@ -30,7 +31,7 @@ def json_data_to_insert_queries(json_data, table_name):
 
 
 def execute_query(conn, curr, query):
-    print(curr.execute(query))
+    curr.execute(query)
     conn.commit()
 
 
