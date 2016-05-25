@@ -97,20 +97,6 @@ def parse_response_for_results(response, result_element):
     return results
 
 
-def xml_to_flat_json(root, data):
-    if len(root.getchildren()) > 0:
-        for element in root.getchildren():
-            data = xml_to_flat_json(element, data)
-    else:
-        tag = root.tag.replace('{%s}' % root.nsmap[root.prefix], '')
-        data[tag] = root.text
-    return data
-
-
-def iterate_xml_results(results):
-    return [xml_to_flat_json(result, {}) for result in results]
-
-
 def results_to_database(results, table_name, table_keys, cram=False):
     data = iterate_xml_results(results)
 
@@ -128,3 +114,17 @@ def results_to_database(results, table_name, table_keys, cram=False):
 
     curr.close()
     conn.close()
+
+
+def iterate_xml_results(results):
+    return [xml_to_flat_json(result, {}) for result in results]
+
+
+def xml_to_flat_json(root, data):
+    if len(root.getchildren()) > 0:
+        for element in root.getchildren():
+            data = xml_to_flat_json(element, data)
+    else:
+        tag = root.tag.replace('{%s}' % root.nsmap[root.prefix], '')
+        data[tag] = root.text
+    return data
