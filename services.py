@@ -70,7 +70,7 @@ class EmployeePhoneInformationService:
         self.request_url = 'https://service4.ultipro.com/services/EmployeePhoneInformation'
         self.action_url = 'http://www.ultipro.com/services/employeephoneinformation/IEmployeePhoneInformation/FindPhoneInformations'
         self.namespace = 'http://www.ultipro.com/services/employeephoneinformation'
-        self.find_element = 'FindPhoneInformations '
+        self.find_element = 'FindPhoneInformations'
         self.result_element = 'PhoneInformations'
         self.table_name = 'EmployeePhoneInformation'
         self.table_keys = ['EmployeeNumber', 'CompanyCode']
@@ -83,7 +83,7 @@ class EmployeeEmploymentInformationService:
         self.request_url = 'https://service4.ultipro.com/services/EmployeeEmploymentInformation'
         self.action_url = 'http://www.ultipro.com/services/employeeemploymentinformation/IEmployeeEmploymentInformation/FindEmploymentInformations'
         self.namespace = 'http://www.ultipro.com/services/employeeemploymentinformation'
-        self.find_element = 'FindEmploymentInformations  '
+        self.find_element = 'FindEmploymentInformations'
         self.result_element = 'EmploymentInformations '
         self.table_name = 'EmployeeEmploymentInformation'
         self.table_keys = ['EmployeeNumber', 'CompanyCode']
