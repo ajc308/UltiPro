@@ -2,9 +2,10 @@ import config
 import requests
 from lxml import html
 from lxml.etree import Element, SubElement, QName, tostring
-from shared import XMLNamespaces
+from utils import XMLNamespaces
 
 REQUEST_URL = 'https://service4.ultipro.com/services/LoginService'
+
 
 class LoginService:
     def authenticate(self):

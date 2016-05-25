@@ -1,27 +1,18 @@
-import shared
-from database import *
-from services.login import LoginService
-from services.employee_person import EmployeePersonService
+import utils
+import services
+from login import LoginService
+from rinse.util import printxml
 
-l = LoginService()
-e = EmployeePersonService(l.token)
-params = {
-    'CompanyCode': '=NETS',
-    'Status': '=A',
-    # 'PageNumber': '1',
-    # 'PageSize': '1000'
-}
-results = e.find_people(params)
-json_data = shared.iterate_xml_results(results)
+token = LoginService().token
+page_number = 1
+page_size = 1000
+max_page_number = 3
+params = {}
+web_service = services.EmployeeContactsService
 
-conn = get_connection()
-curr = get_connection_cursor(conn)
+service = web_service(token)
 
-insert_queries = json_data_to_insert_queries(json_data, 'EmployeePerson')
-
-for query in insert_queries:
-    try:
-        execute_query(conn, curr, query)
-    except Exception as e:
-        print(e)
-        print(query)
+for page in range(page_number, max_page_number):
+    print(page)
+    results = utils.find(service, params, str(page), str(page_size))
+    utils.results_to_database(results, service.table_name, service.table_keys, cram=False)

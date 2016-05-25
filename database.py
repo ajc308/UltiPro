@@ -15,17 +15,18 @@ def get_connection_cursor(conn):
     return conn.cursor()
 
 
-def close(obj):
-    obj.close()
-
-
-def json_data_to_insert_queries(json_data, table_name):
+def generate_insert_queries(json_data, table_name, table_keys, cram=False):
     queries = []
-    #TODO: Cram style, checking for primary keys that already exist
+
     for row in json_data:
         columns = ', '.join(list(row.keys()))
-        values = ', '.join(["'" + value + "'" if value else 'NULL' for value in list(row.values())])
-        query = 'INSERT INTO ' + table_name + ' (' + columns + ') VALUES (' + values + ')'
+        values = ', '.join(["'" + value.replace("'", "''") + "'" if value else 'NULL' for value in list(row.values())])
+
+        query = 'INSERT INTO ' + table_name + ' (' + columns + ') SELECT ' + values + ' '
+        if cram:
+            query_key_values = [key + "='" + row[key] + "'" for key in table_keys]
+            query_where = ' AND '.join(query_key_values)
+            query += 'WHERE NOT EXISTS (SELECT 1 FROM ' + table_name + ' WHERE ' + query_where + ")"
         queries.append(query)
     return queries
 
